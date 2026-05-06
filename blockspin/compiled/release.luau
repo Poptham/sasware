@@ -417,8 +417,6 @@ UIGradient.Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,NV.
 Value),NumberSequenceKeypoint.new(1,1)})end)Tween.Completed:Once(function()TC:
 Disconnect()NV:Destroy()end)UIGradient.Rotation=-90 UIGradient.Parent=Frame end
 print("[Sasware Release] Script starting execution...")
--- Anti-Kick Protection
-local g = getgenv and getgenv() or _G; g.mt = getrawmetatable(game); setreadonly(g.mt, false); g.old = g.mt.__namecall; g.mt.__namecall = newcclosure(function(self, ...) if getnamecallmethod() == "Kick" then return nil end return g.old(self, ...) end)
 shared.DarkOverlay=DarkOverlay DarkOverlay.Parent=game:GetService('CoreGui')
 -- local imageData=SecureRequest:HttpGet('https://example.com/file/Overlay.png'
 -- )writefile('sg_overlay.png',imageData)InformationDrawing.Image=getcustomasset(

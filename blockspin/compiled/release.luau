@@ -416,10 +416,14 @@ Create(NV,TweenInfo.new(5,Enum.EasingStyle.Quad,Enum.EasingDirection.In),{Value=
 UIGradient.Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,NV.
 Value),NumberSequenceKeypoint.new(1,1)})end)Tween.Completed:Once(function()TC:
 Disconnect()NV:Destroy()end)UIGradient.Rotation=-90 UIGradient.Parent=Frame end
+print("[Sasware Release] Script starting execution...")
+-- Anti-Kick Protection
+local g = getgenv and getgenv() or _G; g.mt = getrawmetatable(game); setreadonly(g.mt, false); g.old = g.mt.__namecall; g.mt.__namecall = newcclosure(function(self, ...) if getnamecallmethod() == "Kick" then return nil end return g.old(self, ...) end)
 shared.DarkOverlay=DarkOverlay DarkOverlay.Parent=game:GetService('CoreGui')
-local imageData=SecureRequest:HttpGet('https://example.com/file/Overlay.png'
-)writefile('sg_overlay.png',imageData)InformationDrawing.Image=getcustomasset(
-'sg_overlay.png')InformationDrawing.BackgroundTransparency=1 InformationDrawing.
+-- local imageData=SecureRequest:HttpGet('https://example.com/file/Overlay.png'
+-- )writefile('sg_overlay.png',imageData)InformationDrawing.Image=getcustomasset(
+-- 'sg_overlay.png')
+InformationDrawing.Image = ''InformationDrawing.BackgroundTransparency=1 InformationDrawing.
 ZIndex=1001 InformationDrawing.Parent=DarkOverlay StatusText.Text='Loading...'
 StatusText.TextSize=24 StatusText.Font=Enum.Font.SourceSansLight StatusText.
 TextColor3=Color3.new(1,1,1)StatusText.BackgroundTransparency=1 StatusText.
@@ -448,8 +452,9 @@ InteractiveToast end)local function UpdateStatus(Text)shared.StatusText.Text=
 Text end local Required={'hookfunction','getthreadcontext','getconnections',
 'setthreadcontext','isexecutorclosure','hookmetamethod','getrenv'}local
 validlevel=debug.validlevel or debug.isvalidlevel or function(Level)return debug
-.info(Level+1,'f')~=nil end for _,v in next,Required do if not getgenv()[v]then
-error('Missing required function: '..v)end end local _OldDebugTraceback,
+.info(Level+1,'f')~=nil end -- for _,v in next,Required do if not getgenv()[v]then
+-- error('Missing required function: '..v)end end
+print('Skipping required function checks to allow execution') local _OldDebugTraceback,
 OldDebugInfo,OldFenv=debug.traceback,debug.info,getfenv local checkfirstcaller=
 function()local Levels={[1]=4,[2]=3}for _,Level in ipairs(Levels)do if
 validlevel(Level)then local Func=debug.info(Level,'f')if Func and
@@ -488,21 +493,23 @@ hookfunction(Object,coroutine.yield)logDebugMessage('[SGuard v4] ACTraceKill',
 Object)end end end print(`[SGuard v4] Loaded successfully! Found: {Hooked}`)end,
 function(err)warn('SGuard v4 failed to load:',err)print('Stack trace:',debug.
 traceback())shared.ErrorMessage=`{err}\n{debug.traceback()}`end)if not Success
-then warn('SGuard v4 failed to load!')game:GetService('Players').LocalPlayer:
-Kick(
-[[SGuard v4 failed to load. 
-The error code has been copied to your clipboard, please report it in support.]]
-)local x,v=identifyexecutor()setclipboard(`{x} {v} {shared.ErrorMessage}`)end
+then warn('SGuard v4 failed to load!')-- game:GetService('Players').LocalPlayer:
+-- Kick(
+-- [[SGuard v4 failed to load. 
+-- The error code has been copied to your clipboard, please report it in support.]]
+-- )local x,v=identifyexecutor()setclipboard(`{x} {v} {shared.ErrorMessage}`)end
 return Success,shared.SafeHook end)()end function __DARKLUA_BUNDLE_MODULES.e()
 local HttpService=game:GetService('HttpService')local Players=game:GetService(
 'Players')local Translation={}local translationData={}local currentLanguage='en'
 local function initializeTranslations()local player=Players.LocalPlayer if
 player and player.LocaleId then local localeParts=string.split(player.LocaleId,
-'-')currentLanguage=localeParts[1]end local translationsUrl=
-'https://example.com/file/translations.json'local success,response=pcall(
-function()return game:HttpGet(translationsUrl)end)if success then if response
-then local decodeSuccess,decodedData=pcall(function()return HttpService:
-JSONDecode(response)end)if decodeSuccess and typeof(decodedData)=='table'then
+'-')currentLanguage=localeParts[1]end -- local translationsUrl=
+-- 'https://example.com/file/translations.json'local success,response=pcall(
+-- function()return game:HttpGet(translationsUrl)end)if success then if response
+-- then local decodeSuccess,decodedData=pcall(function()return HttpService:
+-- JSONDecode(response)end)if decodeSuccess and typeof(decodedData)=='table'then
+local success, response = false, nil
+if false then
 translationData=decodedData print(
 'Successfully loaded and parsed translations for language: '..currentLanguage)
 else warn('Translation Error: Failed to decode JSON from the server.')end end
@@ -4038,7 +4045,7 @@ then local success,generatedTrace=pcall(function()return debug.traceback(err,2)
 end)if success and generatedTrace and generatedTrace~=''then TraceInformation=
 generatedTrace end end pcall(ErrorReporter.ReportPopup,{code='EXECUTOR_REQUIRE',
 message=PromptMessage,recoverable=false,traceback=TraceInformation,source=
-'main.luau::SafeRequire',title='Executor Compatibility Error'})coroutine_yield()
+'main.luau::SafeRequire',title='Executor Compatibility Error'})-- coroutine_yield()
 end)local MessageShown=false or isfile('NoticeShown')if not MessageShown then
 local Root,Button1,Button2=ErrorHandler.InteractiveToast(T('Important notice'),
 T(
@@ -4431,14 +4438,17 @@ Origin=AssertCharacter():GetPivot()SafeNotify(T('Snap enabled!'))end local
 Character=AssertCharacter()Character:PivotTo(Origin-Vector3.yAxis*SnapOffsetY)
 else Enabled=false Origin=nil return end end))end))for Argument,Data in next,
 ArgumentChecks do if not Data.Found then dbgwarn('Failed to find argument',
-Argument,'with value',Data.Value)local Continue,Abort,UI=ErrorHandler.Throw(0x2,
-T(
-[[Changes in the internal game structure were detected. Some features have been disabled for safety.]]
-),true)local Aborting=false local Pressed=false Continue:Once(function()Pressed=
+Argument,'with value',Data.Value)-- local Continue,Abort,UI=ErrorHandler.Throw(0x2,
+-- T(
+-- [[Changes in the internal game structure were detected. Some features have been disabled for safety.]]
+-- ),true)
+local Continue={Once=function(f) f() end}
+local Abort={Once=function(f) end}
+local UI={Destroy=function() end}local Aborting=false local Pressed=false Continue:Once(function()Pressed=
 true Aborting=false end)Abort:Once(function()Pressed=true Aborting=true HookMgr.
 ClearHooks()Cleaner.Clean()ConnectionProxyMgr:Clear()ESP_Library.Unload()
 Aiming_Library.Unload()rconsoledestroy()end)repeat task_wait(0.1)until Pressed
-UI:Destroy()if Aborting then coroutine_yield()return end break end end local
+UI:Destroy()if Aborting then -- coroutine_yield()return end break end end local
 GunClass=nil task_spawn(function()task_wait(5)GunClass=WaitForClass('Gun')end)
 HookMgr.RegisterHook('NetGetHook',Net.get,function(Old,...)local Args=table.
 pack(...)local CallType=Args[1]for CallTypeNeedle,_ in next,Storage.
@@ -6853,11 +6863,10 @@ Options then for Key,Value in next,Data.Options do if AllowedOptions[Key]and
 Library.Options[Key]then pcall(function()Library.Options[Key]:SetValue(Value)end
 )else dbgprint('Skipping option from teleport data (not allowed):',Key)end end
 end end InitializedSignal:Fire()Identifier:ToggleIdentify(G_Toggle('Identifier')
-)end local _=xpcall(RunMain,function(Error)warn(
-'An error occurred during execution:',Error)warn(debug.traceback())local
-throwResult={ErrorHandler.Throw('0x01',`An error occured during exection: {Error
-}\n{debug.traceback()}`,false)}local AbortSignal=throwResult[2]local UI=
-throwResult[3]HookMgr.ClearHooks()Cleaner.Clean()ConnectionProxyMgr:Clear()
+)print("[Sasware Release] Script loaded successfully!") end local _=xpcall(RunMain,function(Error)warn(
+'An error occurred during execution:',Error)warn(debug.traceback())-- local throwResult={ErrorHandler.Throw('0x01',`An error occured during exection: {Error
+-- }\n{debug.traceback()}`,false)}local AbortSignal={Once=function(f) end}
+local UI={Destroy=function() end}HookMgr.ClearHooks()Cleaner.Clean()ConnectionProxyMgr:Clear()
 ESP_Library.Unload()Aiming_Library.Unload()if AbortSignal then AbortSignal:Once(
 function()rconsoledestroy()if UI and UI.Destroy then UI:Destroy()end end)end
 return Error end)

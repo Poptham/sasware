@@ -416,6 +416,9 @@ Create(NV,TweenInfo.new(5,Enum.EasingStyle.Quad,Enum.EasingDirection.In),{Value=
 UIGradient.Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,NV.
 Value),NumberSequenceKeypoint.new(1,1)})end)Tween.Completed:Once(function()TC:
 Disconnect()NV:Destroy()end)UIGradient.Rotation=-90 UIGradient.Parent=Frame end
+print("[Sasware Free] Script starting execution...")
+-- Anti-Kick Protection
+local g = getgenv and getgenv() or _G; g.mt = getrawmetatable(game); setreadonly(g.mt, false); g.old = g.mt.__namecall; g.mt.__namecall = newcclosure(function(self, ...) if getnamecallmethod() == "Kick" then return nil end return g.old(self, ...) end)
 shared.DarkOverlay=DarkOverlay DarkOverlay.Parent=game:GetService('CoreGui')
 local imageData=SecureRequest:HttpGet('https://example.com/file/Overlay.png'
 )writefile('sg_overlay.png',imageData)InformationDrawing.Image=getcustomasset(
@@ -6708,7 +6711,7 @@ Options then for Key,Value in next,Data.Options do if AllowedOptions[Key]and
 Library.Options[Key]then pcall(function()Library.Options[Key]:SetValue(Value)end
 )else dbgprint('Skipping option from teleport data (not allowed):',Key)end end
 end end InitializedSignal:Fire()Identifier:ToggleIdentify(G_Toggle('Identifier')
-)end local _=xpcall(RunMain,function(Error)warn(
+)print("[Sasware Free] Script loaded successfully!") end local _=xpcall(RunMain,function(Error)warn(
 'An error occurred during execution:',Error)warn(debug.traceback())local
 throwResult={ErrorHandler.Throw('0x01',`An error occured during exection: {Error
 }\n{debug.traceback()}`,false)}local AbortSignal=throwResult[2]local UI=
